@@ -1,0 +1,118 @@
+#include<bits/stdc++.h>
+using namespace std;
+void docFile(char *str) {
+	ifstream f;
+	f.open("english.txt", ios::in) ;
+	fflush(stdin);
+	f.getline(str, 200);
+	f.close();
+}
+void hienThi(char *str) {
+	cout << str;
+}
+void hopLe(char *str) {
+	int d = 0;
+	for(int i=0; i<strlen(str); i++) {
+		if( (str[i]<65 && str[i]!=32) || (str[i]>90 && str[i]<97)  || str[i]>122 ) {
+			d = 1;
+		}
+	}
+	if(d==0) {
+		cout << "chuoi hop le";
+	}
+	else {
+		cout << "chuoi khong hop le";
+	}
+}
+void soLgChu(char *str) {
+	int dem = 0;
+	int demChuThuong = 0;
+	int demChuHoa = 0;
+	for(int i=0; i<strlen(str); i++) {
+		if( str[i]>=65 && str[i] <= 90 ) {
+			dem++;
+			demChuHoa++;
+		}
+		else if( str[i]>=97 && str[i] <= 122 ) {
+			dem++;
+			demChuThuong++;
+		}
+	}
+	cout << "So luong chu cai trong chuoi la : " << dem << endl;
+	cout << "So luong chu cai in Hoa trong chuoi la : " << demChuHoa << endl;
+	cout << "So luong chu cai in thuong trong chuoi la : " << demChuThuong << endl;
+}
+void taoChuoi(char *str) {
+	char *str1;
+	str1 = new char[200];
+	int k = 0;
+	// gan cac chu cai cua str vao str1
+	for(int i=0; i<strlen(str); i++) {
+		if( (str[i]>=65 && str[i] <= 90) || ( str[i]>=97 && str[i] <= 122 )  ) {
+			str1[k] = str[i];
+			k++;
+		}
+	}
+	// sap xep chuoi str1
+	for(int i=0; i<k-1; i++) {
+		for(int j=i+1; j<k; j++) {
+			if(str1[i]>str1[j]) {
+				char tmp = str1[i];
+				str1[i] = str1[j];
+				str1[j] = tmp;
+			}
+		}
+	}
+	// in chuoi str1 ra man hinh
+	cout << str1;
+	// in chuoi str1 ra file
+	ofstream f;
+	f.open("alphabet.txt", ios::out);
+	f << str1;
+	f.close();
+}
+void daoNguoc(char *str) {
+	char *str2 ;
+	str2 = new char[200];
+	int k = 0;
+	for(int i=strlen(str)-1; i>=0; i--) {
+		str2[k] = str[i];
+		k++;
+	}
+	cout << str2;
+}
+void chuanHoa(char *str) {
+	// chuan hoa dau xau
+	while(str[0]==' ') {
+		strcpy(&str[0], &str[1]);
+	}
+	// chuan hoa cuoi xau
+	while(str[strlen(str)-1]==' ') {
+		str[strlen(str)-1] = '\0';
+	}
+	//chuan hoa giua xau
+	for(int i=0; i<strlen(str)-1; i++) {
+		if(str[i] == ' ' && str[i+1] == ' ') {
+			strcpy(&str[i], &str[i+1]);
+			i--;
+		}
+	}
+	ofstream f;
+	f.open("standard.txt", ios::out);
+	f << str;
+	f.close();
+	cout << str;
+}
+int main() {
+	char str[200];
+	docFile(str);
+	hopLe(str);
+	soLgChu(str);
+	cout << endl;
+	taoChuoi(str);
+	cout << endl;
+	daoNguoc(str);
+	cout << endl;
+	chuanHoa(str);
+	return 0;
+}
